@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.text-container {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+}
+
+:where(.css-dev-only-do-not-override-1htoz2s).ant-radio-wrapper {
+  font-family: 'Inter', sans-serif;
+}
+
+.ant-typography {
+  font-family: 'Inter', sans-serif;
+}
+
+.ant-btn {
+  font-family: 'Inter', sans-serif;
+}
+.container {
+  max-width: 938px;
+}
+
+:where(.css-dev-only-do-not-override-1htoz2s).ant-pagination .ant-pagination-item-active {
+  background-color: #1677ff;
+}
+
+:where(.css-dev-only-do-not-override-1htoz2s).ant-pagination .ant-pagination-item-active > a {
+ color: white;
+}
+
+
+.radio-block {
+  border-bottom: 1px solid rgb(217, 217, 217);
+}
+
+.radio-label {
+  position: relative;
+
+}
+
+.custom-radio {
+  position: absolute;
+  bottom: -13px;
+  left: -11px;
+  display: none;
+  width: 64px;
+  height: 2.3px;
+  background: rgb(24, 144, 255);
+}
+
+.real-radio {
+  display: none;
+
+}
+
+.real-radio:checked + .custom-radio {
+  display: block;
+
+}
+
+:where(.css-dev-only-do-not-override-1htoz2s).ant-rate {
+  display: flex;
+}
