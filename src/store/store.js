@@ -81,17 +81,17 @@ const rateMovie = async (movieId, rating) => {
 
 const getRatedMovies = async () => {
   try {
-    const sessionId = getGuestSessionId();
+    const sessionId = getGuestSessionId(); // Убедитесь, что эта функция возвращает корректный sessionId
     const response = await axios.get(`${BASE_URL}/guest_session/${sessionId}/rated/movies`, {
       headers: {
         accept: 'application/json',
         Authorization: `Bearer ${API_TOKEN}`
       }
     });
-    return response.data;
+    return response.data; // Убедитесь, что вы правильно обрабатываете возвращенные данные
   } catch (error) {
-    console.error('Ошибка при получении данных:', error);
+    return []; 
   }
-}
+};
 
 export { fetchFilms, searchMovies, createGuestSession, getRatedMovies, rateMovie };

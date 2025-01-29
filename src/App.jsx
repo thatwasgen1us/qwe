@@ -18,7 +18,7 @@ const App = () => {
 
   const mergeMovies = (searchMovies, ratedMovies) => {
     return searchMovies.map(searchMovie => {
-      const ratedMovie = ratedMovies.find(rated => rated.id === searchMovie.id);
+      const ratedMovie = ratedMovies ? ratedMovies.find(rated => rated.id === searchMovie.id) : null;
       return ratedMovie ? { ...searchMovie, ...ratedMovie } : searchMovie;
     });
   };
@@ -38,6 +38,7 @@ const App = () => {
           return;
         }
         const bodyRated = await getRatedMovies();
+        console.log('bodyRated', bodyRated)
         const body = await searchMovies(searchTerm, page);
         const result = mergeMovies(body.results, bodyRated.results);
         setFilms(result);
