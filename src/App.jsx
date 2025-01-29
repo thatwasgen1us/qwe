@@ -29,8 +29,8 @@ const App = () => {
     try {
       if (rated) {
         const body = await getRatedMovies();
-        setFilms(body.results);
-        setTotalResults(body.total_results);
+        setFilms(body.results || []);
+        setTotalResults(body.total_results || []);
       } else {
         if (!searchTerm) {
           setFilms([]);
@@ -38,7 +38,6 @@ const App = () => {
           return;
         }
         const bodyRated = await getRatedMovies();
-        console.log('bodyRated', bodyRated)
         const body = await searchMovies(searchTerm, page);
         const result = mergeMovies(body.results, bodyRated.results);
         setFilms(result);
