@@ -1,9 +1,9 @@
+import { Pagination } from 'antd';
+import { debounce } from 'lodash';
 import { useEffect, useState } from 'react';
 import Header from './components/Header';
-import { Pagination } from 'antd';
-import { getRatedMovies, searchMovies } from './store/store';
 import MovieList from './components/MovieList';
-import { debounce } from 'lodash';
+import { getRatedMovies, searchMovies } from './store/store';
 
 const App = () => {
   const [films, setFilms] = useState([]);
@@ -27,10 +27,11 @@ const App = () => {
     setLoading(true);
     setError(false);
     try {
+      let body;
       if (rated) {
-        const body = await getRatedMovies();
-        setFilms(body.results);
-        setTotalResults(body.total_results);
+        const bodyRated = await getRatedMovies();
+        setFilms(bodyRated.results || []);
+        setTotalResults(bodyRated.total_results || 0);
       } else {
         if (!searchTerm) {
           setFilms([]);
@@ -38,8 +39,7 @@ const App = () => {
           return;
         }
         const bodyRated = await getRatedMovies();
-        console.log('bodyRated', bodyRated)
-        const body = await searchMovies(searchTerm, page);
+        body = await searchMovies(searchTerm, page);
         const result = mergeMovies(body.results, bodyRated.results);
         setFilms(result);
         setTotalResults(body.total_results);
@@ -55,12 +55,17 @@ const App = () => {
   const debouncedFetchData = debounce((searchTerm, page) => fetchData(searchTerm, page), 500);
 
   useEffect(() => {
-    debouncedFetchData(search, currentPage);
-
+    if (search || currentPage) {
+      debouncedFetchData(search, currentPage);
+    }
     return () => {
       debouncedFetchData.cancel();
     };
-  }, [search, currentPage, rated]);
+  }, [search, currentPage]);
+
+  useEffect(() => {
+    fetchData(search, 1);
+  }, [rated]);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -69,13 +74,11 @@ const App = () => {
   const onRated = () => {
     setRated(true);
     setCurrentPage(1);
-    fetchData(search, 1);
   };
 
   const onSearch = () => {
     setRated(false);
     setCurrentPage(1);
-    fetchData(search, 1);
   };
 
   return (
@@ -104,4 +107,3 @@ const App = () => {
 };
 
 export default App;
-
