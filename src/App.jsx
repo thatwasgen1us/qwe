@@ -55,15 +55,15 @@ const App = () => {
   const debouncedFetchData = debounce((searchTerm, page) => fetchData(searchTerm, page), 500);
 
   useEffect(() => {
-    if (search || currentPage) {
-      debouncedFetchData(search, currentPage);
-    }
+    debouncedFetchData(search, currentPage);
+
     return () => {
       debouncedFetchData.cancel();
     };
   }, [search, currentPage]);
 
   useEffect(() => {
+    // Обновляем данные при изменении состояния rated
     fetchData(search, 1);
   }, [rated]);
 
